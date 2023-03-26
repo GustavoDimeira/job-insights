@@ -21,21 +21,14 @@ def read(path: str) -> List[Dict]:
 
 
 def get_unique_job_types(path: str) -> List[str]:
-    """Checks all different job types and returns a list of them
+    reponse = set()
 
-    Must call `read`
+    jobs = read(path)
 
-    Parameters
-    ----------
-    path : str
-        Must be passed to `read`
+    for job in jobs:
+        reponse.add(job["job_type"])
 
-    Returns
-    -------
-    list
-        List of unique job types
-    """
-    raise NotImplementedError
+    print(reponse)
 
 
 def filter_by_job_type(jobs: List[Dict], job_type: str) -> List[Dict]:
