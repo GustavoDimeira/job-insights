@@ -4,8 +4,8 @@ from src.insights.jobs import read
 
 def get_max_salary(path: str) -> int:
     jobs = read(path)
-    
-    maxSalary = read(path)[0]["max_salary"]
+
+    maxSalary = jobs[0]["max_salary"]
 
     for job in jobs:
         if (int(job["max_salary"]) > maxSalary):
@@ -16,8 +16,8 @@ def get_max_salary(path: str) -> int:
 
 def get_min_salary(path: str) -> int:
     jobs = read(path)
-    
-    minSalary = read(path)[0]["min_salary"]
+
+    minSalary = jobs[0]["min_salary"]
 
     for job in jobs:
         if (int(job["min_salary"]) < minSalary):
