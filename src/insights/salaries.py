@@ -8,8 +8,9 @@ def get_max_salary(path: str) -> int:
     maxSalary = None
 
     for job in jobs:
-        if (job["max_salary"] and (not maxSalary or int(job["max_salary"]) > maxSalary)):
-            maxSalary = int(job["max_salary"])
+        salary = job["max_salary"]
+        if (salary and (not maxSalary or int(salary) > maxSalary)):
+            maxSalary = int(salary)
 
     return maxSalary
 
@@ -18,19 +19,22 @@ def get_min_salary(path: str) -> int:
     jobs = read(path)
 
     minSalary = None
-    
+
     for job in jobs:
-        if (job["min_salary"] and (not minSalary or int(job["min_salary"]) < minSalary)):
-            minSalary = int(job["min_salary"])
+        salary = job["min_salary"]
+        if (salary and (not minSalary or int(salary) < minSalary)):
+            minSalary = int(salary)
 
     return minSalary
 
 
 def matches_salary_range(job: Dict, salary: Union[int, str]) -> bool:
-    if (not job["max_salary"] or not job["min_salary"] or job["min_salary"] > job["max_salary"]):
+    maxSalary = job["max_salary"]
+    minSalary = job["min_salary"]
+    if (not maxSalary or not minSalary or minSalary > maxSalary):
         raise ValueError
 
-    return (job["max_salary"] >= salary and job["min_salary"] >= salary)
+    return (maxSalary >= salary and minSalary >= salary)
 
 
 def filter_by_salary_range(
@@ -52,4 +56,3 @@ def filter_by_salary_range(
         Jobs whose salary range contains `salary`
     """
     raise NotImplementedError
-
