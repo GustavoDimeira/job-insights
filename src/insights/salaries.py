@@ -13,7 +13,7 @@ def get_max_salary(path: str) -> int:
             try:
                 max_salary = int(salary)
             except ValueError:
-                print('a')
+                None
 
     return max_salary
 
@@ -29,7 +29,7 @@ def get_min_salary(path: str) -> int:
             try:
                 min_salary = int(salary)
             except ValueError:
-                print('Invalid value')
+                None
 
     return min_salary
 
@@ -57,19 +57,13 @@ def filter_by_salary_range(
     jobs: List[dict],
     salary: Union[str, int]
 ) -> List[Dict]:
-    """Filters a list of jobs by salary range
+    response = []
 
-    Parameters
-    ----------
-    jobs : list
-        The jobs to be filtered
-    salary : int
-        The salary to be used as filter
+    for job in jobs:
+        try:
+            if (matches_salary_range(job, salary)):
+                response.append(job)
+        except ValueError:
+            None
 
-    Returns
-    -------
-    list
-        Jobs whose salary range contains `salary`
-    """
-    raise NotImplementedError
-
+    return response
