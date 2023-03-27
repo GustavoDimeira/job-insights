@@ -5,36 +5,52 @@ from src.insights.jobs import read
 def get_max_salary(path: str) -> int:
     jobs = read(path)
 
-    maxSalary = None
+    max_salary = None
 
     for job in jobs:
         salary = job["max_salary"]
-        if (salary and (not maxSalary or int(salary) > maxSalary)):
-            maxSalary = int(salary)
+        if (salary and (not max_salary or max_salary < int(salary))):
+            try:
+                max_salary = int(salary)
+            except ValueError:
+                print('a')
 
-    return maxSalary
+    return max_salary
 
 
 def get_min_salary(path: str) -> int:
     jobs = read(path)
 
-    minSalary = None
+    min_salary = None
 
     for job in jobs:
         salary = job["min_salary"]
-        if (salary and (not minSalary or int(salary) < minSalary)):
-            minSalary = int(salary)
+        if (salary and (not min_salary or min_salary > int(salary))):
+            try:
+                min_salary = int(salary)
+            except ValueError:
+                print('Invalid value')
 
-    return minSalary
+    return min_salary
+
+
+def str_to_int(input):
+    if (type(input) == int or (type(input) == str and input.isnumeric())):
+        return int(input)
+    raise ValueError
 
 
 def matches_salary_range(job: Dict, salary: Union[int, str]) -> bool:
-    maxSalary = job["max_salary"]
-    minSalary = job["min_salary"]
-    if (not maxSalary or not minSalary or minSalary > maxSalary):
+    if ("max_salary" not in job) or ("min_salary" not in job):
         raise ValueError
 
-    return (maxSalary >= salary and minSalary >= salary)
+    maxSalary = str_to_int(job["max_salary"])
+    minSalary = str_to_int(job["min_salary"])
+    salary = str_to_int(salary)
+    if (minSalary > maxSalary):
+        raise ValueError
+
+    return (maxSalary >= salary and minSalary <= salary)
 
 
 def filter_by_salary_range(
@@ -56,3 +72,4 @@ def filter_by_salary_range(
         Jobs whose salary range contains `salary`
     """
     raise NotImplementedError
+
