@@ -5,10 +5,10 @@ from src.insights.jobs import read
 def get_max_salary(path: str) -> int:
     jobs = read(path)
 
-    maxSalary = jobs[0]["max_salary"]
+    maxSalary = None
 
     for job in jobs:
-        if (int(job["max_salary"]) > maxSalary):
+        if (job["max_salary"] and (not maxSalary or int(job["max_salary"]) > maxSalary)):
             maxSalary = int(job["max_salary"])
 
     return maxSalary
@@ -17,10 +17,10 @@ def get_max_salary(path: str) -> int:
 def get_min_salary(path: str) -> int:
     jobs = read(path)
 
-    minSalary = jobs[0]["min_salary"]
-
+    minSalary = None
+    
     for job in jobs:
-        if (int(job["min_salary"]) < minSalary):
+        if (job["min_salary"] and (not minSalary or int(job["min_salary"]) < minSalary)):
             minSalary = int(job["min_salary"])
 
     return minSalary
@@ -71,3 +71,4 @@ def filter_by_salary_range(
         Jobs whose salary range contains `salary`
     """
     raise NotImplementedError
+
